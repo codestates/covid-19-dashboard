@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+		integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-v4-rtl/4.6.0-2/css/bootstrap.min.css"
+		integrity="sha512-hugT+JEQi0vXZbvspjv4x2M7ONBvsLR9IFTEQAYoUsmk7s1rRc2u7I6b4xa14af/wZ+Nw7Aspf3CtAfUOGyflA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<title>나의 코로나바이러스 대시보드</title>
+</head>
+
+<script>
+</script>
+<style>
+	.absolute-centering {
+		background-color: #004EA1;
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	.bg-for-card {
+		background-color: #008CCD;
+		/* background-color: #00A0E2; */
+		color: white;
+	}
+</style>
+
+<body class="absolute-centering">
+	<h1 class="text-center text-white p-3">나의 코로나바이러스 대시보드</h1>
+	<div class="container card p-5">
+		<div class="container">
+
+			<div class="row">
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">총 확진자</div>
+						<div class="card-text stat-confirmed">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">총 완치자</div>
+						<div class="card-text stat-deaths">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">총 환자</div>
+						<div class="card-text stat-recovered">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">총 사망자</div>
+						<div class="card-text stat-critical">0</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row p-10">
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">일일 확진자</div>
+						<div class="card-text stat-today-confirmed">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">일일 완치자</div>
+						<div class="card-text stat-today-recovered">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">일일 사망자</div>
+						<div class="card-text stat-today-deaths">0</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row p-10">
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">전일 확진자</div>
+						<div class="card-text stat-today-confirmed">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">전일 완치자</div>
+						<div class="card-text stat-today-recovered">0</div>
+					</div>
+				</div>
+				<div class="col p-1">
+					<div class="card bg-for-card text-center p-2">
+						<div class="card-title">전일 사망자</div>
+						<div class="card-text stat-today-deaths">0</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	</div>
+</body>
+
+<script>
+	// 공공데이터활용지원센터_보건복지부 코로나19 감염 현황 http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?serviceKey=%2BD7urJhYzcVLnHRcASgTjIDmA8JteMmq770m3l8Wxe4s8KR4g%2F07ZxcVEqjtqg8m6PdxCrQ9pPuwr5mfzHFGPg%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20210620&endCreateDt=20210620
+	// XML 질병관리청_코로나19 예방접종 현황 https://nip.kdca.go.kr/irgd/cov19stats.do?list=all
+	(async function () {
+		let covidData;
+		const covidURL = "https://corona-api.com/countries/kr"
+		await axios.get(covidURL)
+			.then(res => res.data.data)
+			.then(data => {
+				console.log(data)
+				covidData = data;
+			})
+
+		let newsData;
+		const newsURL = "http://apis.data.go.kr/1262000/SafetyNewsList/getCountrySafetyNewsList?serviceKey=%2BD7urJhYzcVLnHRcASgTjIDmA8JteMmq770m3l8Wxe4s8KR4g%2F07ZxcVEqjtqg8m6PdxCrQ9pPuwr5mfzHFGPg%3D%3D&numOfRows=10&pageNo=1&title1=%EC%9E%85%EA%B5%AD&title2=%EC%BD%94%EB%A1%9C%EB%82%98&title3=%EC%9A%B4%ED%95%AD&title4=%ED%95%AD%EA%B3%B5%EA%B6%8C&title5=%EA%B2%A9%EB%A6%AC"
+
+		const todayConfirmedElement = document.querySelector('.stat-today-confirmed')
+		const todayRecoveredElement = document.querySelector('.stat-today-recovered')
+		const todayDeathsElement = document.querySelector('.stat-today-deaths')
+
+		const totalConfirmedElement = document.querySelector('.stat-confirmed')
+		const totalRecoveredElement = document.querySelector('.stat-recovered')
+		const totalDeathsElement = document.querySelector('.stat-deaths')
+		const totalCriticalElement = document.querySelector('.stat-critical')
+
+		todayConfirmedElement.textContent = covidData.today.confirmed;
+		todayRecoveredElement.textContent = covidData.timeline[0].new_recovered;
+		todayDeathsElement.textContent = covidData.today.deaths
+
+		totalConfirmedElement.textContent = covidData.latest_data.confirmed;
+		totalRecoveredElement.textContent = covidData.latest_data.recovered;
+		totalDeathsElement.textContent = covidData.latest_data.deaths;
+		totalCriticalElement.textContent = covidData.latest_data.critical;
+	})();
+</script>
+
+</html>
